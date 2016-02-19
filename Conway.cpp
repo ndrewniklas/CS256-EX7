@@ -18,12 +18,11 @@ Conway::Conway(std::string seed){
 	board = build(rows, cols);
 	for(int i = 0; i < rows; ++i){
 		for(int j = 0; j < cols; ++j){
-			while(fin >> cell){
-				if(cell == 1){
-					board[i][j] = true;
-				}else if(cell == 0){
-					board[i][j] = false;
-				}
+			fin >> cell;
+			if(cell == 1){
+				board[i][j] = true;
+			}else if(cell == 0){
+				board[i][j] = false;
 			}
 		}
 	}
