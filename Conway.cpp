@@ -99,7 +99,61 @@ std::string Conway::str() const{
 }
 
 void Conway::step(){
+	int numAlive = 0;
+	for(int i = 0; i < rows; ++i){
+		for(int j = 0; j < cols; ++j){
+			numAlive = getNeighbors(i, j);
+			ruleChk(numAlive, i, j);
+		}
+	}
+	std::cout << str() << "\n\n" << std::endl;
+}
+
+int Conway::getNeighbors(int row, int col) const{
+	int numAlive = 0;
 	
+	if(row == 0){
+		//at top
+	}else if(row == rows){
+		//at bottom
+	}
+	
+	if(col == 0){
+		//at left
+	}else if(col == cols){
+		//at right
+	}
+	
+	if(row == 0 && col == 0){
+		//top left corner
+	}else if(row == 0 && col == cols){
+		//top right corner
+	}else if(row == rows && col == 0){
+		//botom left corner
+	}else if(row == rows && col == cols){
+		//bottom right corner
+	}
+	for(int i = )
+}
+
+void Conway::ruleChk(int numAlive, int row, int col){
+	if(alive(row, col)){
+		if(numAlive < 2){
+			//rule 1
+			flip(row, col);
+		}else if(numAlive == 2 || numAlive == 3){
+			//rule 2
+			//stays alive
+		}else if(numAlive > 3){
+			//rule 3
+			flip(row, col);
+		}
+	}else{
+		//rule 4
+		if(numAlive == 3){
+			flip(row, col);
+		}
+	}
 }
 
 void Conway::play(int n){

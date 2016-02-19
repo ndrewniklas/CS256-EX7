@@ -20,6 +20,8 @@ private:
 	int rows;
 	int cols;
 	bool** build(int rows, int cols);
+	int getNeighbors(int row, int col) const;
+	void ruleChk(int numAlive, int row, int col);
 public:
     // add public menbers here
 	Conway(std::string seed);
