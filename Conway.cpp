@@ -111,10 +111,10 @@ void Conway::step(){
 	for(int i = 0; i < rows; ++i){
 		for(int j = 0; j < cols; ++j){
 			//std::cout << "\n";
-			std::cout << "@" << i << ", " << j << ": ";
+			// std::cout << "@" << i << ", " << j << ": ";
 			numAlive = getNeighbors(i, j);
 			ruleChk(numAlive, i, j, toFlip);
-			std::cout << numAlive << std::endl;
+			// std::cout << numAlive << std::endl;
 		}
 	}
 	update(toFlip);
@@ -124,7 +124,7 @@ void Conway::step(){
 	delete [] toFlip;
 	toFlip = nullptr;
 	
-	std::cout << str() << "\n\n" << std::endl;
+	std::cout << str() << std::endl;
 }
 
 int Conway::getNeighbors(int row, int col) const{
