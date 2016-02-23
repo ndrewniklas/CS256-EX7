@@ -40,6 +40,9 @@ int main(int argc, char* argv[]){
 	
 	Conway c(seedFile);
 	std::cout << c.str();
+	// c.play(iter);
+	c.step();
+	std::cout << c.str();
 	
 	ConwayTester ct;
 	ct.testExistence();

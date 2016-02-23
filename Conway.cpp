@@ -1,4 +1,4 @@
-//Andrew Niklas
+ //Andrew Niklas
 //Exercise 7
 //Completed 2/24/2016
 
@@ -75,7 +75,7 @@ Conway& Conway::operator=(const Conway& right){
 	return *this;
 }
 
-bool Conway::alive(int row, int col){
+bool Conway::alive(int row, int col) const{
 	return board[row][col];
 }
 
@@ -100,10 +100,14 @@ std::string Conway::str() const{
 
 void Conway::step(){
 	int numAlive = 0;
+	std::cout << "before:\n" << str();
 	for(int i = 0; i < rows; ++i){
 		for(int j = 0; j < cols; ++j){
+			std::cout << "\n";
+			std::cout << "@" << i << ", " << j << ": ";
 			numAlive = getNeighbors(i, j);
 			ruleChk(numAlive, i, j);
+			std::cout << numAlive << std::endl;
 		}
 	}
 	std::cout << str() << "\n\n" << std::endl;
@@ -111,29 +115,74 @@ void Conway::step(){
 
 int Conway::getNeighbors(int row, int col) const{
 	int numAlive = 0;
+	int sRow = row - 1;
+	int eRow = row + 2;
+	int sCol = col - 1;
+	int eCol = col + 2;
 	
 	if(row == 0){
 		//at top
+		std::cout << "at top" << std::endl;
+		sRow = row;
+		eRow = row + 2;
 	}else if(row == rows){
 		//at bottom
+		std::cout << "at bottom" << std::endl;
+		sRow = row - 1;
+		eRow = row;
 	}
 	
 	if(col == 0){
 		//at left
+		std::cout << "at left" << std::endl;
+		sCol = col;
+		eCol = col + 2;
 	}else if(col == cols){
 		//at right
+		std::cout << "at right" << std::endl;
+		sCol = col - 1;
+		eCol = col;
 	}
 	
 	if(row == 0 && col == 0){
 		//top left corner
+		std::cout << "top left corner" << std::endl;
+		sRow = row;
+		eRow = row + 2;
+		sCol = col;
+		eCol = col + 2;
 	}else if(row == 0 && col == cols){
 		//top right corner
+		std::cout << "top right corner" << std::endl;
+		sRow = row;
+		eRow = row + 2;
+		sCol = col - 1;
+		eCol = col;
 	}else if(row == rows && col == 0){
 		//botom left corner
+		std::cout << "botom left corner" << std::endl;
+		sRow = row - 1;
+		eRow = row;
+		sCol = col;
+		eCol = col + 2;
 	}else if(row == rows && col == cols){
 		//bottom right corner
+		std::cout << "bottom right corner" << std::endl;
+		sRow = row - 1;
+		eRow = row;
+		sCol = col - 1;
+		eCol = col;
 	}
-	for(int i = )
+	
+	for(int i = sRow; i < eRow && i < rows; ++i){
+		for(int j = sCol; j < eCol && j < cols; ++j){
+			// std::cout << "\t" << i << ", " << j << std::endl;
+			if(alive(i, j)){
+				++numAlive;
+			}
+		}
+	}
+	return numAlive;
 }
 
 void Conway::ruleChk(int numAlive, int row, int col){

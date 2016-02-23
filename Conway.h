@@ -29,7 +29,7 @@ public:
 	~Conway();
 	
 	Conway& operator=(const Conway& right);
-	bool alive(int row, int col);
+	bool alive(int row, int col) const;
 	void flip(int row, int col);
 	std::string str() const;
 	void step();
