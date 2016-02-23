@@ -21,7 +21,8 @@ private:
 	int cols;
 	bool** build(int rows, int cols);
 	int getNeighbors(int row, int col) const;
-	void ruleChk(int numAlive, int row, int col);
+	void ruleChk(int numAlive, int row, int col, bool** toFlip);
+	void update(bool** toFlip);
 public:
     // add public menbers here
 	Conway(std::string seed);

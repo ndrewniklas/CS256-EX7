@@ -43,6 +43,12 @@ bool** Conway::build(int rows, int cols){
 	for(int i = 0; i < rows; ++i){
 		result[i] = new bool[cols];
 	}
+	//zero out
+	for(int i = 0; i < rows; ++i){
+		for(int j = 0; j < cols; ++j){
+			result[i][j] = 0;
+		}
+	}
 	return result;
 }
 
@@ -100,16 +106,24 @@ std::string Conway::str() const{
 
 void Conway::step(){
 	int numAlive = 0;
-	std::cout << "before:\n" << str();
+	bool** toFlip = build(rows, cols);
+	//std::cout << "before:\n" << str();
 	for(int i = 0; i < rows; ++i){
 		for(int j = 0; j < cols; ++j){
-			std::cout << "\n";
+			//std::cout << "\n";
 			std::cout << "@" << i << ", " << j << ": ";
 			numAlive = getNeighbors(i, j);
-			ruleChk(numAlive, i, j);
+			ruleChk(numAlive, i, j, toFlip);
 			std::cout << numAlive << std::endl;
 		}
 	}
+	update(toFlip);
+	for(int i = 0; i < rows; ++i){
+		delete [] toFlip[i];
+	}
+	delete [] toFlip;
+	toFlip = nullptr;
+	
 	std::cout << str() << "\n\n" << std::endl;
 }
 
@@ -122,52 +136,44 @@ int Conway::getNeighbors(int row, int col) const{
 	
 	if(row == 0){
 		//at top
-		std::cout << "at top" << std::endl;
 		sRow = row;
 		eRow = row + 2;
 	}else if(row == rows){
 		//at bottom
-		std::cout << "at bottom" << std::endl;
 		sRow = row - 1;
 		eRow = row;
 	}
 	
 	if(col == 0){
 		//at left
-		std::cout << "at left" << std::endl;
 		sCol = col;
 		eCol = col + 2;
 	}else if(col == cols){
 		//at right
-		std::cout << "at right" << std::endl;
 		sCol = col - 1;
 		eCol = col;
 	}
 	
 	if(row == 0 && col == 0){
 		//top left corner
-		std::cout << "top left corner" << std::endl;
 		sRow = row;
 		eRow = row + 2;
 		sCol = col;
 		eCol = col + 2;
 	}else if(row == 0 && col == cols){
 		//top right corner
-		std::cout << "top right corner" << std::endl;
 		sRow = row;
 		eRow = row + 2;
 		sCol = col - 1;
 		eCol = col;
 	}else if(row == rows && col == 0){
 		//botom left corner
-		std::cout << "botom left corner" << std::endl;
 		sRow = row - 1;
 		eRow = row;
 		sCol = col;
 		eCol = col + 2;
 	}else if(row == rows && col == cols){
 		//bottom right corner
-		std::cout << "bottom right corner" << std::endl;
 		sRow = row - 1;
 		eRow = row;
 		sCol = col - 1;
@@ -179,28 +185,44 @@ int Conway::getNeighbors(int row, int col) const{
 			// std::cout << "\t" << i << ", " << j << std::endl;
 			if(alive(i, j)){
 				++numAlive;
+				if(i==row && j==col){
+					--numAlive;
+				}
 			}
+			
 		}
 	}
 	return numAlive;
 }
 
-void Conway::ruleChk(int numAlive, int row, int col){
+void Conway::ruleChk(int numAlive, int row, int col, bool** toFlip){
 	if(alive(row, col)){
 		if(numAlive < 2){
 			//rule 1
-			flip(row, col);
-		}else if(numAlive == 2 || numAlive == 3){
+			toFlip[row][col] = true;
+		}
+		if(numAlive == 2 || numAlive == 3){
 			//rule 2
 			//stays alive
-		}else if(numAlive > 3){
+		}
+		if(numAlive > 3){
 			//rule 3
-			flip(row, col);
+			toFlip[row][col] = true;
 		}
 	}else{
 		//rule 4
 		if(numAlive == 3){
-			flip(row, col);
+			toFlip[row][col] = true;
+		}
+	}
+}
+
+void Conway::update(bool** toFlip){
+	for(int i = 0; i < rows; ++i){
+		for(int j = 0; j < cols; ++j){
+			if(toFlip[i][j]){
+				flip(i, j);
+			}
 		}
 	}
 }

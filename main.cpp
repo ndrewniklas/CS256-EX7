@@ -39,13 +39,12 @@ int main(int argc, char* argv[]){
 	}
 	
 	Conway c(seedFile);
-	std::cout << c.str();
-	// c.play(iter);
-	c.step();
-	std::cout << c.str();
+	// std::cout << c.str();
+	c.play(iter);
+	// c.step();
 	
-	ConwayTester ct;
-	ct.testExistence();
+	// ConwayTester ct;
+	// ct.testExistence();
 	
 	return 0;
 }
