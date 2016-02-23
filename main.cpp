@@ -1,6 +1,6 @@
 //Andrew Niklas
 //Exercise 7
-//Completed 2/24/2016
+//Completed 2/22/2016
 
 
 #include <iostream>
